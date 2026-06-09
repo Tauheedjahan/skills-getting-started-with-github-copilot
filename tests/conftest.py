@@ -1,7 +1,7 @@
 from copy import deepcopy
 
-import httpx
 import pytest
+from fastapi.testclient import TestClient
 
 from src.app import app, activities
 
@@ -10,7 +10,7 @@ from src.app import app, activities
 def client():
     original_activities = deepcopy(activities)
 
-    with httpx.Client(app=app, base_url="http://testserver") as client:
+    with TestClient(app) as client:
         yield client
 
     activities.clear()
